@@ -120,12 +120,14 @@ def train_model(trainloader, testloader, model, criterion, optimizer, gpu, epoch
     value.'''
 
     device = set_device(gpu)
+    print(device)
     
     model.to(device)
     
     steps = 0
     running_loss = 0
     for e in range(epochs):
+        
         # Model in training mode, dropout is on
         model.train()
         for images, labels in trainloader:
@@ -142,8 +144,7 @@ def train_model(trainloader, testloader, model, criterion, optimizer, gpu, epoch
             running_loss += loss.item()
 
             if steps % print_every == 0:
-
-                validation_loss, accuracy = validate_model(testloader, model, criterion, device)
+                validation_loss, accuracy = validate_model(testloader, model, criterion, gpu)
 
                 print("Epoch: {}/{}.. ".format(e+1, epochs),
                       "Training Loss: {:.3f}.. ".format(running_loss/print_every),

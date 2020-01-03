@@ -2,6 +2,7 @@
 
 from train_functions import *
 from helper_functions import *
+import workspace_utils
 
 
 import argparse
@@ -36,7 +37,8 @@ criterion, optimizer = set_config(args.learning_rate, model)
 user_feedback(args, model)
 
 #Start training and print out training loss, validation loss and accuracy of the model.
-train_model(trainloader, validloader, model, criterion, optimizer, args.gpu, args.epochs, print_every =32)
+with workspace_utils.active_session():
+    train_model(trainloader, validloader, model, criterion, optimizer, args.gpu, args.epochs, print_every =32)
 #Save checkpoint
 save_checkpoint(args.save_directory, trainloader, model, args.epochs, optimizer, args)
 
